@@ -3,8 +3,8 @@
     <div class="home-header__navbar">
       <div class="logo">
         <transition name="logo"
-                    appear
-                    @after-enter="showNavbar()">
+                    @after-enter="showNavbar"
+                    appear>
             <div>PetProject</div>
         </transition>
       </div>
@@ -18,19 +18,18 @@
       </transition-group>
     </div>
     <transition name="title">
-      <div class="home-header__title" v-if="showTitleAndContinuation">
+      <div class="home-header__title" v-if="showOther">
         <h1>Welcome</h1>
         <h2>Welcome, welcome, welcome</h2>
       </div>
     </transition>
-    <div class="home-header__continuation"
-         @click="$emit('slideDown')"
-         v-if="showTitleAndContinuation">
-      <p>See More</p>
-      <figure>
-        <img src="../../assets/img/down-chevron.svg" width="30" height="30" alt="Go down">
-      </figure>
-    </div>
+    <transition>
+      <div class="home-header__continuation"
+           @click="$emit('continue')"
+           v-if="showOther">
+        <p>Continue</p>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -43,7 +42,7 @@
         showSecond: false,
         showThird: false,
         showFourth: false,
-        showTitleAndContinuation: false
+        showOther: false,
       }
     },
     methods: {
@@ -53,8 +52,8 @@
         setTimeout(() => this.showThird = true, 400);
         setTimeout(() => this.showFourth = true, 600);
       },
-      ShowOtherElements(){
-        this.showTitleAndContinuation = true;
+      showOtherElements(){
+        this.showOther = true;
       }
     }
   }
@@ -62,16 +61,12 @@
 
 <style lang="scss" scoped>
   .home-header{
-    position: absolute;
     height: 100vh;
     width: 100%;
     padding: 30px 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-image: linear-gradient(135deg, rgb(10,10,10) 11.2%, rgb(20,20,20) 50.9%, rgba(40,40,40,1) 78.9%);
-    background-size: 300% 300%;
-    animation: moveBackground 10s ease-in-out infinite;
     &__navbar{
       padding: 0 50px;
       display: flex;
@@ -105,7 +100,6 @@
     &__title{
       font-family: 'Montserrat', sans-serif;
       color: white;
-      animation: Blinking 15s ease-in-out infinite;
       h1{
         font-size: 3rem;
       }
@@ -116,14 +110,14 @@
     }
     &__continuation{
       font-family: 'Exo', sans-serif;
-      font-size: 1.1rem;
-      color: #999;
+      font-size: 1rem;
+      color: #ccc;
       cursor: pointer;
-      figure > img{
-        animation: BlinkAndMoveUpAndDown 2s ease-out infinite;
-      }
+      animation: BlinkingText 3s ease-out infinite;
     }
   }
+
+
 
   .logo-enter-active, .logo-leave-active{
     transition: transform 1s ease-out;
@@ -131,9 +125,6 @@
   .logo-enter, .logo-leave-to{
     transform: translateY(-100px);
   }
-
-
-
   .navbar-enter-active, .navbar-leave-active{
     transition: all 1s;
   }
@@ -141,9 +132,6 @@
     transform: scaleY(0);
     opacity: 0;
   }
-
-
-
   .title-enter-active, .title-leave-active{
     transition: opacity 2s;
   }
@@ -151,28 +139,15 @@
     opacity: 0;
   }
 
-  @keyframes BlinkAndMoveUpAndDown {
+  @keyframes BlinkingText {
     0%{
-      transform: translateY(0);
-      opacity: 0;
+      opacity: .5;
     }
     50%{
       opacity: 1;
     }
     100%{
-      opacity: .1;
-      transform: translateY(10px);
-    }
-  }
-  @keyframes moveBackground {
-    0% {
-      background-position: 0 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0 50%;
+      opacity: .5;
     }
   }
 </style>
