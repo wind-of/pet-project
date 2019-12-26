@@ -10,11 +10,11 @@
       </div>
       <transition-group tag="ul"
                         name="navbar"
-                        @after-enter="ShowOtherElements()">
-        <li v-if="showFirst"  key="111111">About</li>
-        <li v-if="showSecond" key="111112">Examples</li>
-        <li v-if="showThird"  key="111113">Lorem</li>
-        <li v-if="showFourth" key="111114">Ipsum</li>
+                        @after-enter="showOtherElements">
+        <li v-if="showFirst"  key="111111" @click="$emit('continue')">About</li>
+        <li v-if="showSecond" key="111112" @click="$emit('continue')">Examples</li>
+        <li v-if="showThird"  key="111113" @click="$emit('continue')">Lorem</li>
+        <li v-if="showFourth" key="111114" @click="$emit('continue')">Ipsum</li>
       </transition-group>
     </div>
     <transition name="title">
