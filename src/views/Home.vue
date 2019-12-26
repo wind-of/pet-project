@@ -1,8 +1,10 @@
 <template>
   <div class="home">
     <transition :name="animationType" mode="out-in">
-      <HomeHeader v-if="showHeader" @continue="Continue"/>
-      <HomeContent v-else @continue="Continue" @return="Back"/>
+      <HomeHeader v-if="showHeader"
+                  @continue="ChangeView('forward')"/>
+      <HomeContent v-else
+                   @return="ChangeView('backward')"/>
     </transition>
   </div>
 </template>
@@ -33,14 +35,10 @@
         this.ToggleHeader();
         this.ToggleContent();
       },
-      Continue() {
-        this.SetAnimationType('forward');
+      ChangeView(animationType) {
+        this.SetAnimationType(animationType);
         this.ToggleView();
       },
-      Back() {
-        this.SetAnimationType('backward');
-        this.ToggleView();
-      }
     },
     components: {
       HomeHeader,
