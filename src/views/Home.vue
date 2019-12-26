@@ -1,18 +1,82 @@
 <template>
   <div class="home">
-    <HomeHeader/>
-    <div class="home__content">
-      <h1>Hello</h1>
-    </div>
+    <transition :name="animationType" mode="out-in">
+      <HomeHeader v-if="showHeader" @continue="Continue"/>
+      <HomeContent v-else @continue="Continue" @return="Back"/>
+    </transition>
   </div>
 </template>
 
 <script>
-  import HomeHeader from '@/components/main/Header'
+  import HomeHeader from '@/components/home/Header'
+
   export default {
     name: 'home',
+    data() {
+      return{
+        showHeader: true,
+        showContent: false,
+        animationType: 'forward'
+      }
+    },
+    methods: {
+      SetAnimationType(type) {
+        this.animationType = type;
+      },
+      ToggleHeader() {
+        this.showHeader = !this.showHeader
+      },
+      ToggleContent() {
+        this.showContent = !this.showContent
+      },
+      ToggleView() {
+        this.ToggleHeader();
+        this.ToggleContent();
+      },
+      Continue() {
+        this.SetAnimationType('forward');
+        this.ToggleView();
+      },
+      Back() {
+        this.SetAnimationType('backward');
+        this.ToggleView();
+      }
+    },
     components: {
-        HomeHeader
+      HomeHeader,
+      HomeContent: () => import(/* webpackChunkName: "home-content" */"@/components/home/Content")
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  .home{
+    background-image: linear-gradient(135deg, rgb(10,10,10) 11.2%, rgb(20,20,20) 50.9%, rgba(40,40,40,1) 78.9%);
+    background-size: 300% 300%;
+    animation: moveBackground 10s ease-in-out infinite;
+    text-align: center;
+  }
+  @keyframes moveBackground {
+    0% {
+      background-position: 0 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0 50%;
+    }
+  }
+  .forward-enter-active, .forward-leave-active,
+  .backward-enter-active, .backward-leave-active{
+    transition: all .5s ease;
+  }
+  .forward-leave-to, .backward-enter{
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  .forward-enter, .backward-leave-to{
+    transform: translateY(100%);
+    opacity: 0;
+  }
+</style>
