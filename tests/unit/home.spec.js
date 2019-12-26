@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import HomeHeaderComponent from '@/components/main/Header.vue'
+import HomeHeaderComponent from '@/components/home/Header.vue'
 
 
 describe('Homepage', () => {
