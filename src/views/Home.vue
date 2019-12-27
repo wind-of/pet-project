@@ -25,19 +25,13 @@
       SetAnimationType(type) {
         this.animationType = type;
       },
-      ToggleHeader() {
-        this.showHeader = !this.showHeader
-      },
-      ToggleContent() {
-        this.showContent = !this.showContent
-      },
-      ToggleView() {
-        this.ToggleHeader();
-        this.ToggleContent();
+      ToggleHeaderAndContent() {
+        this.showHeader = !this.showHeader;
+				this.showContent = !this.showContent;
       },
       ChangeView(animationType) {
         this.SetAnimationType(animationType);
-        this.ToggleView();
+				this.ToggleHeaderAndContent();
       },
     },
     components: {
