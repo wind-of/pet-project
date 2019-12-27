@@ -5,20 +5,18 @@ import HomeHeaderComponent from '@/components/home/Header.vue'
 describe('Homepage', () => {
     describe('Header', () => {
         const Header = shallowMount(HomeHeaderComponent);
+        const { showFirst, showSecond, showThird, showFourth, showOther} = Header.vm;
 
         describe('Animation', () => {
             it('Navbar animation starts', () => {
                 setTimeout(() => {
-                    expect(Header.vm.showFirst).toBeTruthy();
-                    expect(Header.vm.showSecond).toBeTruthy();
-                    expect(Header.vm.showThird).toBeTruthy();
-                    expect(Header.vm.showFourth).toBeTruthy();
+                    expect(showFirst && showSecond && showThird && showFourth).toBeTruthy();
                 }, 0)
             });
 
             it('Title animation starts', () => {
                 setTimeout(() => {
-                    expect(Header.vm.showTitleAndContinuation).toBeTruthy();
+                    expect(showOther).toBeTruthy();
                 }, 0)
             })
         })
