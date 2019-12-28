@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <transition :name="animationType" mode="out-in">
-      <HomeHeader v-if="showHeader"
-                  @continue="ChangeView('forward')"/>
+      <HomeHeader  v-if="showHeader"
+                   @continue="ChangeView('forward')"/>
       <HomeContent v-else
                    @return="ChangeView('backward')"/>
     </transition>
@@ -41,13 +41,15 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .home{
     background-image: linear-gradient(135deg, rgb(10,10,10) 11.2%, rgb(20,20,20) 50.9%, rgba(40,40,40,1) 78.9%);
     background-size: 300% 300%;
     animation: moveBackground 10s ease-in-out infinite;
     text-align: center;
   }
+
+
   @keyframes moveBackground {
     0% {
       background-position: 0 50%;
@@ -59,15 +61,31 @@
       background-position: 0 50%;
     }
   }
-  .forward-enter-active, .forward-leave-active,
-  .backward-enter-active, .backward-leave-active{
+  @keyframes BlinkingText {
+    0%{
+      opacity: .5;
+    }
+    50%{
+      opacity: 1;
+    }
+    100%{
+      opacity: .5;
+    }
+  }
+
+  .forward-enter-active,
+  .forward-leave-active,
+  .backward-enter-active,
+  .backward-leave-active{
     transition: all .5s ease;
   }
-  .forward-leave-to, .backward-enter{
+  .forward-leave-to,
+  .backward-enter{
     transform: translateY(-100%);
     opacity: 0;
   }
-  .forward-enter, .backward-leave-to{
+  .forward-enter,
+  .backward-leave-to{
     transform: translateY(100%);
     opacity: 0;
   }
