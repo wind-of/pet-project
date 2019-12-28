@@ -1,30 +1,31 @@
 <template>
-  <div class="home-header">
-    <div class="home-header__navbar">
+  <div class="header">
+    <div class="header__navbar">
       <div class="logo">
         <transition name="logo"
-                    @after-enter="showNavbar"
+                    @after-enter="ShowNavbar"
                     appear>
             <div>PetProject</div>
         </transition>
       </div>
       <transition-group tag="ul"
                         name="navbar"
-                        @after-enter="showOtherElements">
-        <li v-if="showFirst"  key="111111" @click="$emit('continue')">About</li>
-        <li v-if="showSecond" key="111112" @click="$emit('continue')">Examples</li>
-        <li v-if="showThird"  key="111113" @click="$emit('continue')">Lorem</li>
-        <li v-if="showFourth" key="111114" @click="$emit('continue')">Ipsum</li>
+                        @after-enter="ShowOtherElements">
+        <li v-for="listItem of navigationListItems"
+            :key="listItem"
+            @click="$emit('continue')">
+          {{ listItem }}
+        </li>
       </transition-group>
     </div>
     <transition name="title">
-      <div class="home-header__title" v-if="showOther">
+      <div class="header__title" v-if="showOther">
         <h1>Welcome</h1>
         <h2>Welcome, welcome, welcome</h2>
       </div>
     </transition>
     <transition>
-      <div class="home-header__continuation"
+      <div class="header__continuation"
            @click="$emit('continue')"
            v-if="showOther">
         <p>Continue</p>
@@ -38,21 +39,18 @@
     name: "HomeHeader",
     data() {
       return {
-        showFirst: false,
-        showSecond: false,
-        showThird: false,
-        showFourth: false,
+				navigationListItems: [],
         showOther: false,
       }
     },
     methods: {
-      showNavbar(){
-        this.showFirst = true;
-        setTimeout(() => this.showSecond = true, 200);
-        setTimeout(() => this.showThird = true, 400);
-        setTimeout(() => this.showFourth = true, 600);
+      ShowNavbar(){
+      	['About', 'Examples', 'Lorem', 'Ipsum'].forEach((listItem, index) => {
+      		  const timeout = index * 200;
+            setTimeout(() => this.navigationListItems.push(listItem), timeout)
+        });
       },
-      showOtherElements(){
+      ShowOtherElements(){
         this.showOther = true;
       }
     }
@@ -60,7 +58,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .home-header{
+  .header{
     height: 100vh;
     width: 100%;
     padding: 30px 0;
@@ -137,17 +135,5 @@
   }
   .title-enter, .title-leave-to{
     opacity: 0;
-  }
-
-  @keyframes BlinkingText {
-    0%{
-      opacity: .5;
-    }
-    50%{
-      opacity: 1;
-    }
-    100%{
-      opacity: .5;
-    }
   }
 </style>
